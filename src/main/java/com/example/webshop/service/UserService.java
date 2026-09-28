@@ -51,37 +51,9 @@ public class UserService {
     private final UserDao userDao = new UserDaoJdbc();
 
 
-    /**
-     * Hämtar användaren med angivet ID (inklusive roller).
-     *
-     * @param id användar-ID
-     * @return {@link User} eller {@code null}
-     * @throws SQLException vid DAO/JDBC-fel
-     */
 
-
-    /**
-     * Uppdaterar en användare: om nytt lösenord anges hash’​as det och uppdateras;
-     * annars behålls befintligt lösenord. Rollerna skrivs alltid om helt.
-     *
-     * <p><strong>Regler:</strong></p>
-     * <ul>
-     *   <li>Om {@code newPlainPassword} är tomt sätts inte {@code passwordHash} → DAO ändrar inte lösenordet.</li>
-     *   <li>{@code setRoles} tar först bort befintliga kopplingar och lägger sedan till nya i batch (inom transaction).</li>
-     * </ul>
-     *
-     * @param u                användaren som ska uppdateras
-     * @param newPlainPassword nytt lösenord (valfritt)
-     * @param roles            roller som ska tilldelas (tom lista rensar alla roller)
-     * @throws SQLException vid DAO/JDBC-fel
-     */
-    public void update(User u, String newPlainPassword, List<String> roles) throws SQLException {
-        if (newPlainPassword != null && !newPlainPassword.isBlank()) {
-            String hash = BCrypt.hashpw(newPlainPassword, BCrypt.gensalt());
-            u.setPasswordHash(hash);
-        }
-        userDao.update(u);          // om passwordHash är null uppdateras inte lösenordet
-        userDao.setRoles(u.getId(), roles);
+    public User findByUsername(String username) throws SQLException {
+        return userDao.findByUsername(username);
     }
 
 
