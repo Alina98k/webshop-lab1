@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 
 public class Product {
     private Long id;
-    private Long categoryId;
     private String name;
     private String description;
     private BigDecimal price;
@@ -14,8 +13,6 @@ public class Product {
     // getters & setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-    public Long getCategoryId() { return categoryId; }
-    public void setCategoryId(Long categoryId) { this.categoryId = categoryId; }
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
     public String getDescription() { return description; }

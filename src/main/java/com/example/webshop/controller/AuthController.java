@@ -121,12 +121,7 @@ public class AuthController extends HttpServlet {
             HttpSession s = req.getSession(true);
             s.setAttribute("user", user);
             s.setAttribute("userId", user.getId());     // för OrderController
-            s.setAttribute("roles", user.getRoles());    // för RoleFilter
 
-            boolean isAdmin = user.getRoles() != null && user.getRoles().contains("ADMIN");
-            boolean isWarehouse = user.getRoles() != null && user.getRoles().contains("WAREHOUSE");
-            s.setAttribute("isAdmin", isAdmin);
-            s.setAttribute("isWarehouse", isWarehouse);
 
             // Valfritt: minska session fixation
             // if (req.isRequestedSessionIdValid()) { req.changeSessionId(); }

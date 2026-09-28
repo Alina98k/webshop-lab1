@@ -11,10 +11,5 @@ public interface ProductDao {
     Product findById(Long id) throws SQLException;
 
     // För admin:
-    List<Product> findAll() throws SQLException;
-    Long create(Product p) throws SQLException;
-    void update(Product p) throws SQLException;
-    void delete(Long id) throws SQLException;
 
-    void updateStock(Connection tx, Long productId, int delta) throws SQLException;
 }

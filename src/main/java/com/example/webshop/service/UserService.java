@@ -45,19 +45,11 @@ import java.util.List;
  * </ul>
  *
  * @see com.example.webshop.dao.UserDao
- * @see com.example.webshop.controller.AdminUserController
- * @see com.example.webshop.service.AuthService
+
  */
 public class UserService {
     private final UserDao userDao = new UserDaoJdbc();
 
-    /**
-     * Returnerar alla användare (inklusive roller).
-     *
-     * @return lista över användare
-     * @throws SQLException vid JDBC-fel från DAO-lagret
-     */
-    public List<User> listAll() throws SQLException { return userDao.findAll(); }
 
     /**
      * Hämtar användaren med angivet ID (inklusive roller).
@@ -66,51 +58,7 @@ public class UserService {
      * @return {@link User} eller {@code null}
      * @throws SQLException vid DAO/JDBC-fel
      */
-    public User get(Long id) throws SQLException { return userDao.findById(id); }
 
-    /**
-     * Returnerar alla definierade rollnamn i systemet.
-     *
-     * @return rollnamn (t.ex. ADMIN, CUSTOMER, WAREHOUSE)
-     * @throws SQLException vid DAO/JDBC-fel
-     */
-    public List<String> listAllRoles() throws SQLException { return userDao.listAllRoles(); }
-
-    /**
-     * Returnerar användarens tilldelade roller.
-     *
-     * @param userId användar-ID
-     * @return lista över rollnamn (kan vara tom)
-     * @throws SQLException vid DAO/JDBC-fel
-     */
-    public List<String> getRoles(Long userId) throws SQLException { return userDao.getRoles(userId); }
-
-    /**
-     * Skapar en ny användare: hashar det angivna lösenordet med BCrypt,
-     * sparar användaren och tilldelar roller.
-     *
-     * <p><strong>Regler:</strong></p>
-     * <ul>
-     *   <li>Lösenord är obligatoriskt; om tomt kastas {@link SQLException}.</li>
-     *   <li>Hash genereras med {@code BCrypt.hashpw(plainPassword, BCrypt.gensalt())}.</li>
-     *   <li>Roller sätts atomiskt via {@link UserDao#setRoles(Long, List)}.</li>
-     * </ul>
-     *
-     * @param u             användare som ska skapas (username, fullName, email, active etc. måste vara ifyllda)
-     * @param plainPassword klartextlösenord (obligatoriskt)
-     * @param roles         roller som ska tilldelas (kan vara tom)
-     * @return genererat användar-ID
-     * @throws SQLException vid validerings-, DAO- eller JDBC-fel
-     */
-    public Long create(User u, String plainPassword, List<String> roles) throws SQLException {
-        if (plainPassword == null || plainPassword.isBlank())
-            throw new SQLException("Lösenord krävs");
-        String hash = BCrypt.hashpw(plainPassword, BCrypt.gensalt());
-        u.setPasswordHash(hash);
-        Long id = userDao.create(u);
-        userDao.setRoles(id, roles);
-        return id;
-    }
 
     /**
      * Uppdaterar en användare: om nytt lösenord anges hash’​as det och uppdateras;
@@ -136,12 +84,5 @@ public class UserService {
         userDao.setRoles(u.getId(), roles);
     }
 
-    /**
-     * Tar bort en användare. I DAO sker borttagning av både
-     * användar-rollkopplingar och själva användaren inom en enda transaction.
-     *
-     * @param id användar-ID
-     * @throws SQLException vid DAO/JDBC-fel
-     */
-    public void delete(Long id) throws SQLException { userDao.delete(id); }
+
 }

@@ -26,60 +26,6 @@ import java.util.Optional;
  *       <li><em>3-lagers arkitektur</em> — Controller (denna klass), Service ({@link CartService}),
  *           DAO ({@link ProductDaoJdbc}) — <strong>uppfylls</strong>.</li>
  *     </ul>
- *   </li>
- *   <li><strong>Betyg 4</strong>:
- *     <ul>
- *       <li><em>Varulager-/lagerkontroll</em> — kontrolleras vid tillägg av produkt i korgen
- *           (<strong>delvis uppfyllt</strong>), full hantering sker i Order-lagret.</li>
- *       <li><em>Transaktionell beställning</em> — <strong>utanför denna klass</strong>;
- *           hanteras i service-/DAO-lagret vid orderläggning.</li>
- *     </ul>
- *   </li>
- *   <li><strong>Betyg 5</strong>:
- *     <ul>
- *       <li><em>MVC + 3-lagersstruktur</em> — Denna controller, tillsammans med JSP-vyn
- *           (<code>/WEB-INF/views/cart.jsp</code>) och service-/DAO-lagren,
- *           <strong>uppfyller de arkitektoniska kraven</strong>.
- *           Administrativa funktioner ingår dock inte här.</li>
- *     </ul>
- *   </li>
- * </ul>
- *
- * <h2>Ansvar</h2>
- * <ul>
- *   <li>GET <code>/cart/view</code>: Visar varukorgen och totalsumman.</li>
- *   <li>POST <code>/cart/add</code>: Lägger till produkt i korgen (kontrollerar lager och aktivitet).</li>
- *   <li>POST <code>/cart/update</code>: Uppdaterar kvantitet; 0 tar bort produkten.</li>
- *   <li>POST <code>/cart/remove</code>: Tar bort produkten helt.</li>
- * </ul>
- *
- * <h2>Arkitektur och MVC</h2>
- * <p>
- * Controllern hanterar endast routing och bindning; varukorgens livscykel hanteras av {@link CartService}.
- * Produktvalidering sker via DAO ({@link ProductDaoJdbc}) som frågar databasen. Vyer levereras via JSP.
- * </p>
- *
- * <h2>Sessionshantering</h2>
- * <p>
- * Kundvagnen lagras i användarens {@link HttpSession}.
- * {@link CartService#getOrCreateCart(HttpSession)} returnerar befintlig kundvagn eller skapar en ny.
- * Målet är en kortlivad, användarspecifik kundvagn.
- * </p>
- *
- * <h2>Säkerhet och konsistens</h2>
- * <ul>
- *   <li>Lagerkontroll görs vid tillägg till korgen; vid beställning ska den <strong>bekräftas igen</strong>
- *       inom en <strong>transaktion</strong> (krav för Betyg 4).</li>
- *   <li>Denna controller är för slutkunder; åtkomstkontroll (autentisering) hanteras i ett filter utanför.</li>
- * </ul>
- *
- * <h2>Vyer</h2>
- * <ul>
- *   <li><code>/WEB-INF/views/cart.jsp</code> — visar kundvagn och totalsumma.</li>
- * </ul>
- *
- * @author Your Name
- * @since 1.0
  */
 @WebServlet(name = "CartController", urlPatterns = {"/cart/*"})
 public class CartController extends HttpServlet {
@@ -87,7 +33,6 @@ public class CartController extends HttpServlet {
     /** Hanterar kundvagnens livscykel (lista i sessionen). */
     private final CartService cartService = new CartService();
 
-    /** JDBC-baserad DAO för produktvalidering och lager-/aktivitetskontroller. */
     private final ProductDaoJdbc productDao = new ProductDaoJdbc();
 
     /**
@@ -158,17 +103,11 @@ public class CartController extends HttpServlet {
             Long productId = Long.valueOf(req.getParameter("productId"));
             int qty = Math.max(1, Integer.parseInt(req.getParameter("qty")));
             Product p = productDao.findById(productId);
-            if (p == null || !p.isActive()) {
-                req.getSession().setAttribute("flash", "Produkten hittades inte.");
-                resp.sendRedirect(req.getContextPath() + "/home");
-                return;
-            }
-            if (p.getStock() < qty) {
-                req.getSession().setAttribute("flash", "Otillräckligt lager.");
-                resp.sendRedirect(req.getContextPath() + "/home");
-                return;
-            }
 
+            if (p == null) {
+                resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
             List<CartItem> cart = cartService.getOrCreateCart(req.getSession(true));
             Optional<CartItem> ex = cart.stream()
                     .filter(ci -> ci.getProduct().getId().equals(productId))
