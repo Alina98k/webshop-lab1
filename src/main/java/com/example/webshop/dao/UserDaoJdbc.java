@@ -5,16 +5,7 @@ import com.example.webshop.util.Db;
 
 import java.sql.*;
 
-/**
- * JDBC-baserad implementation av UserDao.
- * Används för att hämta en användare vid inloggning.
- */
 public class UserDaoJdbc implements UserDao {
-
-    /**
-     * Returnerar en användare utifrån användarnamn.
-     * Returnerar null om ingen användare hittas.
-     */
     @Override
     public User findByUsername(String username) throws SQLException {
         String sql = "SELECT id, username, password_hash, full_name, email " +

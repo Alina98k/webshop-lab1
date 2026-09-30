@@ -2,7 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
-<head><title>Logga in</title></head>
+<head>
+    <title>Logga in</title>
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/css/style.css">
+</head>
 <body>
 <h2>Logga in</h2>
 

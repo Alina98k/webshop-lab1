@@ -9,7 +9,5 @@ import java.util.List;
 public interface ProductDao {
     List<Product> findAllActive() throws SQLException;
     Product findById(Long id) throws SQLException;
-
     // För admin:
-
 }

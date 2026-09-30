@@ -12,23 +12,9 @@ import java.util.List;
 
 @WebServlet(name = "HomeController", urlPatterns = {"/home"})
 public class HomeController extends HttpServlet {
-
-    /**
-     * Servicelagret som hämtar produkterna.
-     * <p>Använder {@link ProductService#listActive()} för att endast returnera aktiva (säljbara) produkter.</p>
-     */
     private final ProductService productService = new ProductService();
 
-    /**
-     * Hanterar förfrågan till startsidan.
-     * <p>Hämtar listan över aktiva produkter, lägger den i förfrågningsattributet och
-     * dirigerar till vyn <code>home.jsp</code>.</p>
-     *
-     * @param req  HTTP-förfrågan
-     * @param resp HTTP-svar
-     * @throws ServletException vid fel under dataåtkomst eller dirigering
-     * @throws IOException      vid I/O-fel
-     */
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {

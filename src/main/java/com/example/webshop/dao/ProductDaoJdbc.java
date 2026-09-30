@@ -7,14 +7,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * JDBC-baserad implementation av ProductDao.
- * Ansvarar för att läsa produkter från databasen.
- *
- * För betyg 3 används DAO-lagret för att hämta aktiva produkter
- * och en specifik produkt via dess ID.
- */
-
 public class ProductDaoJdbc implements ProductDao {
 
     @Override
@@ -58,7 +50,6 @@ public class ProductDaoJdbc implements ProductDao {
                 p.setName(rs.getString("name"));
                 p.setDescription(rs.getString("description"));
                 p.setPrice(rs.getBigDecimal("price"));
-
                 return p;
             }
         }

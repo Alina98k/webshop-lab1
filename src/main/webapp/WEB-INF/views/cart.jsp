@@ -2,7 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
-<head><title>Min varukorg</title></head>
+<head>
+    <title>Min varukorg</title>
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/css/style.css">
+</head>
 <body>
 <h2>Min varukorg</h2>
 
@@ -57,7 +61,7 @@
         </c:forEach>
     </table>
 
-    <!-- Delsumma (beräknad i CartService och satt som "total" av controllern) -->
+    <!-- Delsumma -->
     <p><strong>Delsumma:</strong> ${total}</p>
 
     <p>
