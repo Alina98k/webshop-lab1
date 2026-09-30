@@ -1,9 +1,14 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
 <html>
-<head><title>Webshop - Produkter</title></head>
+<head>
+    <title>Matcha – Produkter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/css/style.css">
+</head>
+
 <body>
 
 <!-- Meny baserat på användarens session -->
@@ -28,15 +33,48 @@
 </c:if>
 
 <!-- Produktlista -->
-<ul>
+<ul class="product-list">
     <c:forEach var="p" items="${products}">
         <li>
+            <c:if test="${p.id == 1}">
+                <img class="product-image"
+                     src="${pageContext.request.contextPath}/images/matchapulver.png"
+                     alt="Burk med matchapulver">
+            </c:if>
+
+            <c:if test="${p.id == 2}">
+                <img class="product-image"
+                     src="${pageContext.request.contextPath}/images/matchavisp.png"
+                     alt="Matchavisp av bambu">
+            </c:if>
+
+            <c:if test="${p.id == 3}">
+                <img class="product-image"
+                     src="${pageContext.request.contextPath}/images/matchaskal.png"
+                     alt="Matchagrön keramikskål">
+            </c:if>
+
+            <c:if test="${p.id == 4}">
+                <img class="product-image"
+                     src="${pageContext.request.contextPath}/images/matchakopp.png"
+                     alt="Matchagrön keramikkopp">
+            </c:if>
+
             <strong><c:out value="${p.name}"/></strong>
-            — Pris: ${p.price}
-            <!-- Lägg till i varukorgen -->
-            <form method="post" action="${pageContext.request.contextPath}/cart/add" style="display:inline">
+            <p>Pris: ${p.price} kr</p>
+
+            <form method="post"
+                  action="${pageContext.request.contextPath}/cart/add">
                 <input type="hidden" name="productId" value="${p.id}">
-                <input type="number" name="qty" value="1" min="1">
+
+                <label for="qty-${p.id}">Antal</label>
+                <input type="number"
+                       id="qty-${p.id}"
+                       name="qty"
+                       value="1"
+                       min="1"
+                       required>
+
                 <button type="submit">Lägg i varukorgen</button>
             </form>
         </li>

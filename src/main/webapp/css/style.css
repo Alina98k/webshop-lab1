@@ -1,0 +1,156 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f8f4ef;
+    color: #302820;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px;
+    line-height: 1.6;
+}
+
+h2 {
+    font-size: 32px;
+    margin: 32px 0 24px;
+}
+
+a {
+    color: #704c3e;
+    font-weight: 600;
+    text-underline-offset: 4px;
+}
+
+a:hover {
+    color: #402b23;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #ded4ca;
+    margin: 24px 0;
+}
+
+/* Produkterna visas som kort */
+.product-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+}
+
+.product-list li {
+    background: white;
+    padding: 28px;
+    border: 1px solid #e7ded5;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgb(48 40 32 / 6%);
+}
+
+.product-list strong {
+    display: block;
+    font-size: 21px;
+    margin-bottom: 12px;
+}
+
+.product-list form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+/* Formulär och knappar */
+input {
+    font: inherit;
+    padding: 10px 12px;
+    border: 1px solid #cfc3b7;
+    border-radius: 8px;
+    background: white;
+    max-width: 100%;
+}
+
+input[type="number"] {
+    width: 80px;
+}
+
+input[type="text"],
+input[type="password"] {
+    display: block;
+    width: 100%;
+    max-width: 360px;
+    margin-top: 6px;
+}
+
+button {
+    font: inherit;
+    font-weight: 600;
+    background: #704c3e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #52372d;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+    outline: 3px solid #956b31;
+    outline-offset: 3px;
+}
+
+/* Varukorgen */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th,
+td {
+    padding: 16px;
+    text-align: left;
+    border: 1px solid #e7ded5;
+}
+
+th {
+    background: #eee5db;
+}
+
+td form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* Mindre skärmar */
+@media (max-width: 600px) {
+    body {
+        padding: 24px 16px;
+    }
+
+    .product-list {
+        grid-template-columns: 1fr;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+}
+
+.product-image {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 16px;
+}
