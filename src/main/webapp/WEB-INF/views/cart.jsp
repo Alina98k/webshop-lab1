@@ -5,7 +5,7 @@
 <head>
     <title>Min varukorg</title>
     <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/css/style.css">
+          href="${pageContext.request.contextPath}/css/style.css?v=2">
 </head>
 <body>
 <h2>Min varukorg</h2>
@@ -32,10 +32,38 @@
 
         <c:forEach var="ci" items="${cart}">
             <tr>
-                <!-- Produktnamn -->
-                <td><c:out value="${ci.product.name}"/></td>
+                <td>
+                    <div class="cart-product">
+                        <c:choose>
+                            <c:when test="${ci.product.id == 1}">
+                                <img class="cart-image"
+                                     src="${pageContext.request.contextPath}/images/matchapulver.png"
+                                     alt="Matchapulver">
+                            </c:when>
 
-                <!-- Uppdatera antal -->
+                            <c:when test="${ci.product.id == 2}">
+                                <img class="cart-image"
+                                     src="${pageContext.request.contextPath}/images/matchavisp.png"
+                                     alt="Matchavisp">
+                            </c:when>
+
+                            <c:when test="${ci.product.id == 3}">
+                                <img class="cart-image"
+                                     src="${pageContext.request.contextPath}/images/matchaskal.png"
+                                     alt="Matchaskål">
+                            </c:when>
+
+                            <c:when test="${ci.product.id == 4}">
+                                <img class="cart-image"
+                                     src="${pageContext.request.contextPath}/images/matchakopp.png"
+                                     alt="Matchakopp">
+                            </c:when>
+                        </c:choose>
+
+                        <span><c:out value="${ci.product.name}"/></span>
+                    </div>
+                </td>
+
                 <td>
                     <form method="post" action="${pageContext.request.contextPath}/cart/update">
                         <input type="hidden" name="productId" value="${ci.product.id}">
@@ -44,13 +72,10 @@
                     </form>
                 </td>
 
-                <!-- Enhetspris -->
                 <td>${ci.product.price}</td>
 
-                <!-- Radens totalsumma: pris × antal -->
                 <td>${ci.product.price * ci.qty}</td>
 
-                <!-- Ta bort produkt -->
                 <td>
                     <form method="post" action="${pageContext.request.contextPath}/cart/remove">
                         <input type="hidden" name="productId" value="${ci.product.id}">
@@ -61,12 +86,10 @@
         </c:forEach>
     </table>
 
-    <!-- Delsumma -->
     <p><strong>Delsumma:</strong> ${total}</p>
 
     <p>
         <a href="${pageContext.request.contextPath}/home">Fortsätt handla</a>
-        &nbsp;|&nbsp;
     </p>
 </c:if>
 
