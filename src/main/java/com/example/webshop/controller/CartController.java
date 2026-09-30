@@ -71,7 +71,7 @@ public class CartController extends HttpServlet {
                 ci.setQty(qty);
                 cart.add(ci);
             }
-            resp.sendRedirect(req.getContextPath() + "/cart/view");
+            resp.sendRedirect(req.getContextPath() + "/home");
         } catch (NumberFormatException | SQLException e) {
             throw new ServletException(e);
         }
@@ -83,10 +83,8 @@ public class CartController extends HttpServlet {
         int qty = Math.max(0, Integer.parseInt(req.getParameter("qty")));
         List<CartItem> cart = cartService.getOrCreateCart(req.getSession(true));
 
-        // qty=0 → ta bort produkten
         cart.removeIf(ci -> ci.getProduct().getId().equals(productId) && qty == 0);
 
-        // qty>0 → uppdatera
         cart.stream()
                 .filter(ci -> ci.getProduct().getId().equals(productId))
                 .findFirst()
