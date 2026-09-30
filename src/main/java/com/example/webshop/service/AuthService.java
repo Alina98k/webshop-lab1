@@ -91,8 +91,10 @@ public class AuthService {
      */
     public User login(String username, String plainPassword) throws SQLException {
         User u = userDao.findByUsername(username);
-        if (u == null || !u.isActive()) return null;
-        if (!BCrypt.checkpw(plainPassword, u.getPasswordHash())) return null;
+        if (u == null) return null;
+        if (!BCrypt.checkpw(plainPassword, u.getPasswordHash())) {
+            return null;
+        }
         return u;
     }
 }

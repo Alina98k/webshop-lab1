@@ -17,7 +17,7 @@ public class UserDaoJdbc implements UserDao {
      */
     @Override
     public User findByUsername(String username) throws SQLException {
-        String sql = "SELECT id, username, password_hash, full_name, email, active " +
+        String sql = "SELECT id, username, password_hash, full_name, email " +
                 "FROM users WHERE username=?";
 
         try (Connection c = Db.get();
@@ -34,7 +34,6 @@ public class UserDaoJdbc implements UserDao {
                 u.setPasswordHash(rs.getString("password_hash"));
                 u.setFullName(rs.getString("full_name"));
                 u.setEmail(rs.getString("email"));
-                u.setActive(rs.getBoolean("active"));
 
                 return u;
             }

@@ -19,7 +19,7 @@ public class ProductDaoJdbc implements ProductDao {
 
     @Override
     public List<Product> findAllActive() throws SQLException {
-        String sql = "SELECT id, category_id, name, description, price, stock, active " +
+        String sql = "SELECT id, name, description, price " +
                 "FROM products WHERE active = TRUE ORDER BY id";
 
         try (Connection c = Db.get();
@@ -34,8 +34,6 @@ public class ProductDaoJdbc implements ProductDao {
                 p.setName(rs.getString("name"));
                 p.setDescription(rs.getString("description"));
                 p.setPrice(rs.getBigDecimal("price"));
-                p.setStock(rs.getInt("stock"));
-                p.setActive(rs.getBoolean("active"));
                 list.add(p);
             }
 
@@ -44,7 +42,7 @@ public class ProductDaoJdbc implements ProductDao {
     }
 
     public Product findById(Long id) throws SQLException {
-        String sql = "SELECT id, category_id, name, description, price, stock, active " +
+        String sql = "SELECT id, name, description, price " +
                 "FROM products WHERE id=?";
 
         try (Connection c = Db.get();
@@ -60,8 +58,6 @@ public class ProductDaoJdbc implements ProductDao {
                 p.setName(rs.getString("name"));
                 p.setDescription(rs.getString("description"));
                 p.setPrice(rs.getBigDecimal("price"));
-                p.setStock(rs.getInt("stock"));
-                p.setActive(rs.getBoolean("active"));
 
                 return p;
             }

@@ -1,23 +1,10 @@
 package com.example.webshop.service;
-
-import com.example.webshop.dao.*;
-import com.example.webshop.model.*;
+import com.example.webshop.dao.ProductDao;
+import com.example.webshop.dao.ProductDaoJdbc;
+import com.example.webshop.model.Product;
 
 import java.sql.SQLException;
 import java.util.List;
-/**
- * {@code ProductService} är service-lagret som ansvarar för hantering av produkter.
- * Den tillhandahåller aktiva produkter till slutanvändaren och erbjuder CRUD-funktioner
- * (create, read, update, delete) samt kategorirelationer för adminpanelen.
- *
- * <h2>Uppgiftsrelation (Vilken del?)</h2>
- * <ul>
- *   <li><strong>Betyg 3</strong>:
- *     <ul>
- *       <li>För att användaren ska kunna se produkter skapas en grundläggande produktlista
- *           (<em>“Möjlighet att lägga saker i korgen”</em> uppfylls).</li>
- *     </ul>
- **/
 public class ProductService {
 
     /** DAO för åtkomst till produkter. */
