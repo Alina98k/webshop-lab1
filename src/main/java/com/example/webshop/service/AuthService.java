@@ -6,12 +6,22 @@ import com.example.webshop.model.User;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.SQLException;
-public class AuthService {
 
+public class AuthService {
     private final UserDao userDao = new UserDaoJdbc();
-    public User login(String username, String plainPassword) throws SQLException {
-        User u = userDao.findByUsername(username);
-        if (!BCrypt.checkpw(plainPassword, u.getPasswordHash())) return null;
-        return u;
+    public User login(String username, String plainPassword) {
+        try {
+            User u = userDao.findByUsername(username);
+
+            if (u == null) return null;
+
+            if (!BCrypt.checkpw(plainPassword, u.getPasswordHash())) {
+                return null;
+            }
+
+            return u;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

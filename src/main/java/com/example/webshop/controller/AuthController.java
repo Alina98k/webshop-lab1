@@ -9,7 +9,7 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(name = "AuthController", urlPatterns = {"/login","/logout"})
+//@WebServlet(name = "AuthController", urlPatterns = {"/login","/logout"})
 public class AuthController extends HttpServlet {
 
     private final AuthService authService = new AuthService();
@@ -32,24 +32,22 @@ public class AuthController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
-        try {
-            User user = authService.login(username, password);
-            if (user == null) {
-                req.setAttribute("error", "Användarnamn eller lösenord är felaktigt.");
-                req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
-                return;
-            }
+        User user = authService.login(username, password);
 
-            HttpSession s = req.getSession(true);
-            s.setAttribute("user", user);
-            s.setAttribute("userId", user.getId());     // för OrderController
-
-            resp.sendRedirect(req.getContextPath() + "/home");
-        } catch (SQLException e) {
-            throw new ServletException(e);
+        if (user == null) {
+            req.setAttribute("error", "Användarnamn eller lösenord är felaktigt.");
+            req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
+            return;
         }
+
+        HttpSession s = req.getSession(true);
+        s.setAttribute("user", user);
+        s.setAttribute("userId", user.getId());
+
+        resp.sendRedirect(req.getContextPath() + "/home");
     }
 }

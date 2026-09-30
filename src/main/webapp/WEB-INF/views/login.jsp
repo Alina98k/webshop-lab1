@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.example.webshop.service.AuthService" %>
 
 <html>
 <head>
@@ -8,6 +9,21 @@
           href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
+<%
+    String username = request.getParameter("username");
+    String password = request.getParameter("password");
+    if (username != null && password != null) {
+        var user = new AuthService().login(username, password);
+
+        if (user != null) {
+            session.setAttribute("user", user);
+            session.setAttribute("userId", user.getId());
+            response.sendRedirect(request.getContextPath() + "/home");
+            return;
+        }
+        request.setAttribute("error", "Fel användarnamn eller lösenord");
+    }
+%>
 <h2>Logga in</h2>
 
 <!-- Felmeddelande vid misslyckad inloggning -->
@@ -15,8 +31,7 @@
     <div style="color:red">${error}</div>
 </c:if>
 
-<!-- Inloggningsformulär: AuthController#doPost('/login') -->
-<form method="post" action="${pageContext.request.contextPath}/login">
+<form method="post">
     <p>
         <label>Användarnamn:
             <input type="text" name="username" required>

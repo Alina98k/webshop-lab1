@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.example.webshop.service.CartService" %>
 
 <html>
 <head>
@@ -7,16 +8,37 @@
     <link rel="stylesheet"
           href="${pageContext.request.contextPath}/css/style.css?v=2">
 </head>
-<body>
-<h2>Min varukorg</h2>
 
-<!-- Hämta varukorgen från sessionen -->
-<c:set var="cart" value="${sessionScope.cart}" />
+<body>
+<%
+    CartService cartService = new CartService();
+    try {
+        if ("add".equals(request.getParameter("action"))) {
+            Long productId = Long.valueOf(request.getParameter("productId"));
+            int qty = Integer.parseInt(request.getParameter("qty"));
+
+            cartService.addToCart(session, productId, qty);
+        }
+
+        var cart = cartService.getOrCreateCart(session);
+        request.setAttribute("cart", cart);
+        request.setAttribute("total", cartService.calcTotal(cart));
+
+    } catch (java.sql.SQLException e) {
+        throw new jakarta.servlet.ServletException(e);
+    }
+%>
+
+<h2>Min varukorg</h2>
 
 <!-- Om korgen är tom -->
 <c:if test="${empty cart}">
     <p>Varukorgen är tom.</p>
-    <p><a href="${pageContext.request.contextPath}/home">Tillbaka till butiken</a></p>
+    <p>
+        <a href="${pageContext.request.contextPath}/home">
+            Tillbaka till butiken
+        </a>
+    </p>
 </c:if>
 
 <!-- Om korgen innehåller produkter -->
@@ -27,7 +49,6 @@
             <th>Antal</th>
             <th>Enhetspris</th>
             <th>Totalt</th>
-            <th>Åtgärd</th>
         </tr>
 
         <c:forEach var="ci" items="${cart}">
@@ -64,32 +85,23 @@
                     </div>
                 </td>
 
-                <td>
-                    <form method="post" action="${pageContext.request.contextPath}/cart/update">
-                        <input type="hidden" name="productId" value="${ci.product.id}">
-                        <input type="number" name="qty" value="${ci.qty}" min="0">
-                        <button type="submit">Uppdatera</button>
-                    </form>
-                </td>
+                <td>${ci.qty}</td>
 
                 <td>${ci.product.price}</td>
 
                 <td>${ci.product.price * ci.qty}</td>
-
-                <td>
-                    <form method="post" action="${pageContext.request.contextPath}/cart/remove">
-                        <input type="hidden" name="productId" value="${ci.product.id}">
-                        <button type="submit">Ta bort</button>
-                    </form>
-                </td>
             </tr>
         </c:forEach>
     </table>
 
-    <p><strong>Delsumma:</strong> ${total}</p>
+    <p>
+        <strong>Delsumma:</strong> ${total}
+    </p>
 
     <p>
-        <a href="${pageContext.request.contextPath}/home">Fortsätt handla</a>
+        <a href="${pageContext.request.contextPath}/home">
+            Fortsätt handla
+        </a>
     </p>
 </c:if>
 

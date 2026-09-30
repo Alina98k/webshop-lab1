@@ -1,6 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<%@ page import="com.example.webshop.service.ProductService" %>
+<%@ page import="java.sql.SQLException" %>
+
+
 <html>
 <head>
     <title>Matcha – Produkter</title>
@@ -10,6 +14,15 @@
 </head>
 
 <body>
+
+<%
+    try {
+        ProductService productService = new ProductService();
+        request.setAttribute("products", productService.listActive());
+    } catch (SQLException e) {
+        throw new jakarta.servlet.ServletException(e);
+    }
+%>  <%-- Hämtar aktiva produkter från ProductService--%>
 
 <!-- Meny baserat på användarens session -->
 <div>
@@ -64,7 +77,8 @@
             <p>Pris: ${p.price} kr</p>
 
             <form method="post"
-                  action="${pageContext.request.contextPath}/cart/add">
+                  action="${pageContext.request.contextPath}/cart">
+                <input type="hidden" name="action" value="add">
                 <input type="hidden" name="productId" value="${p.id}">
 
                 <label for="qty-${p.id}">Antal</label>
@@ -82,6 +96,6 @@
 </ul>
 
 <!-- Länk till varukorgen -->
-<p><a href="${pageContext.request.contextPath}/cart/view">Visa varukorg</a></p>
+<p><a href="${pageContext.request.contextPath}/cart">Visa varukorg</a></p>
 </body>
 </html>
