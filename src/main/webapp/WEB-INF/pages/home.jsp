@@ -1,8 +1,10 @@
+<%--
+    JSP-sida som visar webshoppens produkter och låter användaren
+    lägga till produkter i varukorgen
+--%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <%@ page import="com.example.webshop.service.ProductService" %>
-
 
 <html>
 <head>
@@ -15,10 +17,14 @@
 <body>
 
 <%
+    // Skapar en service för hantering av produkter
     ProductService productService = new ProductService();
+
+    // Hämtar produktlistan och gör den tillgänglig för sidans visning
     request.setAttribute("products", productService.listActive());
 %>
 
+<%-- Visar användarens namn och utloggningslänk, annars en inloggningslänk --%>
 <div>
     <c:choose>
         <c:when test="${not empty sessionScope.user}">
@@ -34,15 +40,17 @@
 
 <h2>Produkter</h2>
 
-<!-- Om inga produkter finns -->
+<%-- Visar ett meddelande när produktlistan är tom --%>
 <c:if test="${empty products}">
     <p>Det finns inga produkter just nu.</p>
 </c:if>
 
-<!-- Produktlista -->
+<%-- Visar varje produkt i produktlistan --%>
 <ul class="product-list">
     <c:forEach var="p" items="${products}">
         <li>
+
+                <%-- Visar produktbild utifrån produktens id --%>
             <c:if test="${p.id == 1}">
                 <img class="product-image"
                      src="${pageContext.request.contextPath}/images/matchapulver.png"
@@ -67,9 +75,11 @@
                      alt="Matchagrön keramikkopp">
             </c:if>
 
+                <%-- Visar produktens namn och pris --%>
             <strong><c:out value="${p.name}"/></strong>
             <p>Pris: ${p.price} kr</p>
 
+                <%-- Skickar produktens id och valt antal till varukorgen via POST --%>
             <form method="post"
                   action="${pageContext.request.contextPath}/cart">
                 <input type="hidden" name="action" value="add">
@@ -89,6 +99,10 @@
     </c:forEach>
 </ul>
 
-<p><a href="${pageContext.request.contextPath}/cart">Visa varukorg</a></p>
+<%-- Visar en länk till användarens varukorg --%>
+<p>
+    <a href="${pageContext.request.contextPath}/cart">Visa varukorg</a>
+</p>
+
 </body>
 </html>
