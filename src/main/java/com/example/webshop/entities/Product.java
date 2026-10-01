@@ -1,4 +1,4 @@
-package com.example.webshop.model;
+package com.example.webshop.entities;
 
 import java.math.BigDecimal;
 

@@ -1,6 +1,6 @@
 package com.example.webshop.dao;
 
-import com.example.webshop.model.Product;
+import com.example.webshop.entities.Product;
 import com.example.webshop.util.Db;
 
 import java.sql.*;

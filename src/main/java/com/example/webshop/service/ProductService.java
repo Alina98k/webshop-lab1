@@ -1,7 +1,7 @@
 package com.example.webshop.service;
 
 import com.example.webshop.dao.*;
-import com.example.webshop.model.*;
+import com.example.webshop.entities.*;
 
 import java.sql.SQLException;
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.example.webshop.service;
 
 import com.example.webshop.dao.UserDaoJdbc;
-import com.example.webshop.model.User;
+import com.example.webshop.entities.User;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.SQLException;

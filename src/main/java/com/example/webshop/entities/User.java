@@ -1,6 +1,4 @@
-package com.example.webshop.model;
-
-import java.util.List;
+package com.example.webshop.entities;
 
 public class User {
     private Long id;

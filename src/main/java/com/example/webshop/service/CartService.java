@@ -1,7 +1,7 @@
 package com.example.webshop.service;
 
 import com.example.webshop.dao.ProductDaoJdbc;
-import com.example.webshop.model.Product;
+import com.example.webshop.entities.Product;
 import jakarta.servlet.http.HttpSession;
 
 import java.math.BigDecimal;
