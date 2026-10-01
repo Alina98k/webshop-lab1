@@ -8,9 +8,10 @@ import java.util.List;
 
 public class ProductService {
 
-    private final ProductDao productDao = new ProductDaoJdbc();
-    public List<Product> listActive() throws SQLException {
-        return productDao.findAllActive();
+    private final ProductDaoJdbc productDao = new ProductDaoJdbc();
+
+    public List<Product> listProducts() throws SQLException {
+        return productDao.findAll();
     }
 
     public Product get(Long id) throws SQLException {

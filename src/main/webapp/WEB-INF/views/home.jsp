@@ -18,7 +18,7 @@
 <%
     try {
         ProductService productService = new ProductService();
-        request.setAttribute("products", productService.listActive());
+        request.setAttribute("products", productService.listProducts());
     } catch (SQLException e) {
         throw new jakarta.servlet.ServletException(e);
     }
@@ -95,7 +95,6 @@
     </c:forEach>
 </ul>
 
-<!-- Länk till varukorgen -->
 <p><a href="${pageContext.request.contextPath}/cart">Visa varukorg</a></p>
 </body>
 </html>

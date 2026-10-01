@@ -5,8 +5,7 @@ import com.example.webshop.util.Db;
 
 import java.sql.*;
 
-public class UserDaoJdbc implements UserDao {
-    @Override
+public class UserDaoJdbc {
     public User findByUsername(String username) throws SQLException {
         String sql = "SELECT id, username, password_hash, full_name, email " +
                 "FROM users WHERE username=?";

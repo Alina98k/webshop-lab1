@@ -9,7 +9,6 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.sql.SQLException;
 
-//@WebServlet(name = "AuthController", urlPatterns = {"/login","/logout"})
 public class AuthController extends HttpServlet {
 
     private final AuthService authService = new AuthService();

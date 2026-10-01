@@ -1,6 +1,5 @@
 package com.example.webshop.service;
 
-import com.example.webshop.dao.ProductDao;
 import com.example.webshop.dao.ProductDaoJdbc;
 import com.example.webshop.model.Product;
 import jakarta.servlet.http.HttpSession;
@@ -12,8 +11,7 @@ import java.util.List;
 
 public class CartService {
 
-    private final ProductDao productDao = new ProductDaoJdbc();
-
+    private final ProductDaoJdbc productDao = new ProductDaoJdbc();
     public static class CartItem {
         private Product product;
         private int qty;

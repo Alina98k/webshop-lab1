@@ -7,12 +7,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductDaoJdbc implements ProductDao {
+public class ProductDaoJdbc {
 
-    @Override
-    public List<Product> findAllActive() throws SQLException {
+    public List<Product> findAll() throws SQLException {
         String sql = "SELECT id, name, description, price " +
-                "FROM products WHERE active = TRUE ORDER BY id";
+                "FROM products ORDER BY id";
 
         try (Connection c = Db.get();
              PreparedStatement ps = c.prepareStatement(sql);

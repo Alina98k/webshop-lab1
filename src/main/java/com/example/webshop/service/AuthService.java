@@ -1,6 +1,5 @@
 package com.example.webshop.service;
 
-import com.example.webshop.dao.UserDao;
 import com.example.webshop.dao.UserDaoJdbc;
 import com.example.webshop.model.User;
 import org.mindrot.jbcrypt.BCrypt;
@@ -8,7 +7,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import java.sql.SQLException;
 
 public class AuthService {
-    private final UserDao userDao = new UserDaoJdbc();
+    private final UserDaoJdbc userDao = new UserDaoJdbc();
     public User login(String username, String plainPassword) {
         try {
             User u = userDao.findByUsername(username);

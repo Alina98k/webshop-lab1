@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
-//@WebServlet(name = "CartController", urlPatterns = {"/cart/*"})
 public class CartController extends HttpServlet {
 
     private final CartService cartService = new CartService();
