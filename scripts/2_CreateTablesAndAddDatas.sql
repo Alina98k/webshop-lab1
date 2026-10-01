@@ -7,9 +7,11 @@ USE webshop;
 SET SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO';
 SET time_zone = '+00:00';
 
+-- Tar bort befintliga tabeller och deras data
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS users;
 
+-- Skapar användartabellen och lägger till en testanvändare
 CREATE TABLE users (
                        id BIGINT NOT NULL AUTO_INCREMENT,
                        username VARCHAR(64) NOT NULL,
@@ -28,6 +30,7 @@ VALUES
      '123456',
      'Admin', 'admin@example.com');
 
+-- Skapar produkttabellen och lägger till webshoppens produkter
 CREATE TABLE products (
                           id BIGINT NOT NULL AUTO_INCREMENT,
                           name VARCHAR(120) NOT NULL,
