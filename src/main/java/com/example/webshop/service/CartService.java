@@ -83,7 +83,6 @@ public class CartService {
                             .multiply(BigDecimal.valueOf(item.getQty()))
             );
         }
-
         return total;
     }
 }

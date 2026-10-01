@@ -22,9 +22,8 @@
     } catch (SQLException e) {
         throw new jakarta.servlet.ServletException(e);
     }
-%>  <%-- Hämtar aktiva produkter från ProductService--%>
+%>
 
-<!-- Meny baserat på användarens session -->
 <div>
     <c:choose>
         <c:when test="${not empty sessionScope.user}">

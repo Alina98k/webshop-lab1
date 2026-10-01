@@ -1,4 +1,4 @@
-USE `Webshop`;
+USE `webshop`;
 
     INSERT INTO `users` (id, username, password_hash, full_name, email)
 VALUES

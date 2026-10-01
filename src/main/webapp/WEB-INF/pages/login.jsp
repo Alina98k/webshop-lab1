@@ -26,7 +26,6 @@
 %>
 <h2>Logga in</h2>
 
-<!-- Felmeddelande vid misslyckad inloggning -->
 <c:if test="${not empty error}">
     <div style="color:red">${error}</div>
 </c:if>
@@ -35,7 +34,6 @@
     <p>
         <label>Användarnamn:
             <input type="text" name="username" required>
-            <!-- Valfritt: value="${param.username}" -->
         </label>
     </p>
     <p>

@@ -26,7 +26,7 @@ INSERT INTO users
 VALUES
     (1, 'admin',
      '$2a$10$h5ZRQJ0/Xu/y.Q08yIEOJedM1d31GNEg/DIQrreu6vS7iNvsSjc1a',
-     'Admin', 'admin@example.com', '2025-10-05 00:38:06', 1),
+     'Admin', 'admin@example.com');
 
 CREATE TABLE products (
                           id BIGINT NOT NULL AUTO_INCREMENT,
