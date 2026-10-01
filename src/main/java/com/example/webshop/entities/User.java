@@ -1,5 +1,8 @@
 package com.example.webshop.entities;
 
+/**
+ * Representerar en användare i webshopen.
+ */
 public class User {
     private Long id;
     private String username;

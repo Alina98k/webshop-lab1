@@ -25,7 +25,7 @@ INSERT INTO users
 (id, username, password_hash, full_name, email)
 VALUES
     (1, 'admin',
-     '$2a$10$h5ZRQJ0/Xu/y.Q08yIEOJedM1d31GNEg/DIQrreu6vS7iNvsSjc1a',
+     '123456',
      'Admin', 'admin@example.com');
 
 CREATE TABLE products (

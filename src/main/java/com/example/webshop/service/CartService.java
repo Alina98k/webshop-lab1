@@ -5,13 +5,16 @@ import com.example.webshop.entities.Product;
 import jakarta.servlet.http.HttpSession;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Service-klass som hanterar webshoppens shoppingkorg.
+ */
 public class CartService {
 
     private final ProductDaoJdbc productDao = new ProductDaoJdbc();
+
     public static class CartItem {
         private Product product;
         private int qty;
@@ -33,6 +36,12 @@ public class CartService {
         }
     }
 
+    /**
+     * Hämtar den befintliga shoppingkorgen eller skapar en ny i sessionen.
+     *
+     * @param session användarens session
+     * @return shoppingkorgen
+     */
     public List<CartItem> getOrCreateCart(HttpSession session) {
         @SuppressWarnings("unchecked")
         List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
@@ -45,9 +54,16 @@ public class CartService {
         return cart;
     }
 
-    public boolean addToCart(HttpSession session, Long productId, int qty)
-            throws SQLException {
-
+    /**
+     * Lägger till en produkt i shoppingkorgen.
+     * Om produkten redan finns ökas antalet.
+     *
+     * @param session användarens session
+     * @param productId produktens id
+     * @param qty antal som ska läggas till
+     * @return true om produkten kunde läggas till, annars false
+     */
+    public boolean addToCart(HttpSession session, Long productId, int qty) {
         qty = Math.max(1, qty);
 
         Product product = productDao.findById(productId);
@@ -73,7 +89,12 @@ public class CartService {
         return true;
     }
 
-
+    /**
+     * Räknar ut den totala kostnaden för produkterna i shoppingkorgen.
+     *
+     * @param cart shoppingkorgen
+     * @return den totala kostnaden
+     */
     public BigDecimal calcTotal(List<CartItem> cart) {
         BigDecimal total = BigDecimal.ZERO;
 
@@ -83,6 +104,7 @@ public class CartService {
                             .multiply(BigDecimal.valueOf(item.getQty()))
             );
         }
+
         return total;
     }
 }

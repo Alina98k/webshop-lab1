@@ -7,9 +7,17 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DAO-klass som hanterar hämtning av produkter från databasen.
+ */
 public class ProductDaoJdbc {
 
-    public List<Product> findAll() throws SQLException {
+    /**
+     * Hämtar alla produkter från databasen.
+     *
+     * @return en lista med produkter
+     */
+    public List<Product> findAll() {
         String sql = "SELECT id, name, description, price " +
                 "FROM products ORDER BY id";
 
@@ -29,10 +37,19 @@ public class ProductDaoJdbc {
             }
 
             return list;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Kunde inte hämta produkter", e);
         }
     }
 
-    public Product findById(Long id) throws SQLException {
+    /**
+     * Hämtar en specifik produkt utifrån dess id.
+     *
+     * @param id produktens id
+     * @return produkten om den finns, annars null
+     */
+    public Product findById(Long id) {
         String sql = "SELECT id, name, description, price " +
                 "FROM products WHERE id=?";
 
@@ -40,6 +57,7 @@ public class ProductDaoJdbc {
              PreparedStatement ps = c.prepareStatement(sql)) {
 
             ps.setLong(1, id);
+
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (!rs.next()) return null;
@@ -51,6 +69,9 @@ public class ProductDaoJdbc {
                 p.setPrice(rs.getBigDecimal("price"));
                 return p;
             }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Kunde inte hämta produkten", e);
         }
     }
 }

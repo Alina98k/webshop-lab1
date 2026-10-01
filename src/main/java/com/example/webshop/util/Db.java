@@ -6,9 +6,18 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
+
+/**
+ * Hjälpklass för att skapa databasanslutningar
+ */
 public class Db {
     private static DataSource ds;
-    public static Connection get() throws SQLException {
+    /**
+     * Hämtar en anslutning till databasen från den konfigurerade datakällan.
+     *
+     * @return en anslutning till databasen
+     */
+    public static Connection get() {
         if (ds == null) {
             try {
                 Context init = new InitialContext();
@@ -18,6 +27,11 @@ public class Db {
                 throw new RuntimeException("JNDI-datakälla hittades inte: jdbc/WebshopDS", e);
             }
         }
-        return ds.getConnection();
+
+        try {
+            return ds.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException("Kunde inte skapa databasanslutning", e);
+        }
     }
 }

@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ page import="com.example.webshop.service.ProductService" %>
-<%@ page import="java.sql.SQLException" %>
 
 
 <html>
@@ -16,12 +15,8 @@
 <body>
 
 <%
-    try {
-        ProductService productService = new ProductService();
-        request.setAttribute("products", productService.listProducts());
-    } catch (SQLException e) {
-        throw new jakarta.servlet.ServletException(e);
-    }
+    ProductService productService = new ProductService();
+    request.setAttribute("products", productService.listActive());
 %>
 
 <div>

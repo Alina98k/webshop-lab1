@@ -3,18 +3,30 @@ package com.example.webshop.service;
 import com.example.webshop.dao.*;
 import com.example.webshop.entities.*;
 
-import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Service-klass som hanterar produkter i webshopen.
+ */
 public class ProductService {
 
     private final ProductDaoJdbc productDao = new ProductDaoJdbc();
 
-    public List<Product> listProducts() throws SQLException {
+    /**
+     * Hämtar alla aktiva produkter.
+     * @return en lista med produkter
+     */
+    public List<Product> listActive() {
         return productDao.findAll();
     }
 
-    public Product get(Long id) throws SQLException {
+    /**
+     * Hämtar en produkt utifrån dess id.
+     *
+     * @param id produktens id
+     * @return produkten om den finns, annars null
+     */
+    public Product get(Long id) {
         return productDao.findById(id);
     }
 }

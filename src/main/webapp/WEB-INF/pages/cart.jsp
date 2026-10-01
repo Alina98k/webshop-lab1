@@ -12,21 +12,16 @@
 <body>
 <%
     CartService cartService = new CartService();
-    try {
-        if ("add".equals(request.getParameter("action"))) {
-            Long productId = Long.valueOf(request.getParameter("productId"));
-            int qty = Integer.parseInt(request.getParameter("qty"));
 
-            cartService.addToCart(session, productId, qty);
-        }
+    if ("add".equals(request.getParameter("action"))) {
+        Long productId = Long.valueOf(request.getParameter("productId"));
+        int qty = Integer.parseInt(request.getParameter("qty"));
 
-        var cart = cartService.getOrCreateCart(session);
-        request.setAttribute("cart", cart);
-        request.setAttribute("total", cartService.calcTotal(cart));
-
-    } catch (java.sql.SQLException e) {
-        throw new jakarta.servlet.ServletException(e);
+        cartService.addToCart(session, productId, qty);
     }
+    var cart = cartService.getOrCreateCart(session);
+    request.setAttribute("cart", cart);
+    request.setAttribute("total", cartService.calcTotal(cart));
 %>
 
 <h2>Min varukorg</h2>

@@ -2,6 +2,7 @@ package com.example.webshop.entities;
 
 import java.math.BigDecimal;
 
+/** * Representerar en produkt i webshopen. */
 public class Product {
     private Long id;
     private String name;
