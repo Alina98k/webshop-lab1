@@ -21,7 +21,7 @@
     ProductService productService = new ProductService();
 
     // Hämtar produktlistan och gör den tillgänglig för sidans visning
-    request.setAttribute("products", productService.listActive());
+    request.setAttribute("products", productService.listAll());
 %>
 
 <%-- Visar användarens namn och utloggningslänk, annars en inloggningslänk --%>

@@ -16,7 +16,7 @@ public class ProductService {
      * Hämtar alla aktiva produkter.
      * @return en lista med produkter
      */
-    public List<Product> listActive() {
+    public List<Product> listAll() {
         return productDao.findAll();
     }
 
