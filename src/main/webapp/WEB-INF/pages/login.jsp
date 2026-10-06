@@ -22,7 +22,7 @@
     if (username != null && password != null) {
         var user = new AuthService().login(username, password);
 
-        // Sparar användaren och användarens id i sessionen vid lyckad inloggning
+        // Sparar UserInfo (utan lösenord) och användarens id i sessionen
         if (user != null) {
             session.setAttribute("user", user);
             session.setAttribute("userId", user.getId());

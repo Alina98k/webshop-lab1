@@ -1,32 +1,32 @@
 package com.example.webshop.service;
 
-import com.example.webshop.dao.*;
-import com.example.webshop.entities.*;
-
+import com.example.webshop.dao.ProductDaoJdbc;
+import com.example.webshop.entities.Product;
+import com.example.webshop.ui.ProductInfo;
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Service-klass som hanterar produkter i webshopen.
- */
+/** Hämtar produkter och omvandlar dem till överföringsobjekt för presentationen. */
 public class ProductService {
-
     private final ProductDaoJdbc productDao = new ProductDaoJdbc();
 
-    /**
-     * Hämtar alla aktiva produkter.
-     * @return en lista med produkter
-     */
-    public List<Product> listAll() {
-        return productDao.findAll();
+    /** Hämtar alla produkter som separata visningsobjekt. */
+    public List<ProductInfo> listAll() {
+        List<ProductInfo> result = new ArrayList<>();
+        for (Product product : productDao.findAll()) {
+            result.add(toInfo(product));
+        }
+        return result;
     }
 
-    /**
-     * Hämtar en produkt utifrån dess id.
-     *
-     * @param id produktens id
-     * @return produkten om den finns, annars null
-     */
-    public Product get(Long id) {
-        return productDao.findById(id);
+    /** Hämtar visningsdata för en produkt, eller null om den saknas. */
+    public ProductInfo get(Long id) {
+        Product product = productDao.findById(id);
+        return product == null ? null : toInfo(product);
+    }
+
+    static ProductInfo toInfo(Product product) {
+        return new ProductInfo(product.getId(), product.getName(),
+                product.getDescription(), product.getPrice());
     }
 }

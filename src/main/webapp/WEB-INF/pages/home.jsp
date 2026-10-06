@@ -20,7 +20,7 @@
     // Skapar en service för hantering av produkter
     ProductService productService = new ProductService();
 
-    // Hämtar produktlistan och gör den tillgänglig för sidans visning
+    // Hämtar ProductInfo-kopior och gör dem tillgängliga för sidans visning
     request.setAttribute("products", productService.listAll());
 %>
 

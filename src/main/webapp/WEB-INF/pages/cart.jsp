@@ -25,12 +25,12 @@
         cartService.addToCart(session, productId, qty);
     }
 
-    // Hämtar eller skapar användarens varukorg i sessionen.
-    var cart = cartService.getOrCreateCart(session);
+    // Hämtar separata visningsobjekt för användarens varukorg.
+    var cart = cartService.getCartInfo(session);
 
     // Gör varukorgen och dess delsumma tillgängliga för sidans visning.
     request.setAttribute("cart", cart);
-    request.setAttribute("total", cartService.calcTotal(cart));
+    request.setAttribute("total", cartService.calcTotal(session));
 %>
 
 <h2>Min varukorg</h2>
@@ -94,7 +94,7 @@
 
                 <td>${ci.qty}</td>
                 <td>${ci.product.price}</td>
-                <td>${ci.product.price * ci.qty}</td>
+                <td>${ci.lineTotal}</td>
             </tr>
         </c:forEach>
     </table>

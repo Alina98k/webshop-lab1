@@ -2,6 +2,7 @@ package com.example.webshop.service;
 
 import com.example.webshop.dao.ProductDaoJdbc;
 import com.example.webshop.entities.Product;
+import com.example.webshop.ui.CartInfo;
 import jakarta.servlet.http.HttpSession;
 
 import java.math.BigDecimal;
@@ -15,7 +16,7 @@ public class CartService {
 
     private final ProductDaoJdbc productDao = new ProductDaoJdbc();
 
-    public static class CartItem {
+    private static class CartItem {
         private Product product;
         private int qty;
 
@@ -42,7 +43,7 @@ public class CartService {
      * @param session användarens session
      * @return shoppingkorgen
      */
-    public List<CartItem> getOrCreateCart(HttpSession session) {
+    private List<CartItem> getOrCreateCart(HttpSession session) {
         @SuppressWarnings("unchecked")
         List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
 
@@ -89,22 +90,33 @@ public class CartService {
         return true;
     }
 
+    /** Skapar nya visningsobjekt utan referenser till interna Product-objekt. */
+    public List<CartInfo> getCartInfo(HttpSession session) {
+        List<CartInfo> result = new ArrayList<>();
+        for (CartItem item : getOrCreateCart(session)) {
+            BigDecimal lineTotal = item.getProduct().getPrice()
+                    .multiply(BigDecimal.valueOf(item.getQty()));
+            result.add(new CartInfo(ProductService.toInfo(item.getProduct()),
+                    item.getQty(), lineTotal));
+        }
+        return result;
+    }
+
     /**
      * Räknar ut den totala kostnaden för produkterna i shoppingkorgen.
      *
-     * @param cart shoppingkorgen
+     * @param session användarens session
      * @return den totala kostnaden
      */
-    public BigDecimal calcTotal(List<CartItem> cart) {
+    public BigDecimal calcTotal(HttpSession session) {
         BigDecimal total = BigDecimal.ZERO;
 
-        for (CartItem item : cart) {
+        for (CartItem item : getOrCreateCart(session)) {
             total = total.add(
                     item.getProduct().getPrice()
                             .multiply(BigDecimal.valueOf(item.getQty()))
             );
         }
-
         return total;
     }
 }
